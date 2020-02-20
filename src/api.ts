@@ -5,8 +5,8 @@ const router = express.Router();
 import axios from 'axios';
 import {AxiosPromise, AxiosResponse, AxiosError} from 'axios';
 
-let authToken: null|string = null;
-//   "eyJraWQiOiJpeXZKUEozY0d4SjJBb2ZlTHU5SjB3WFNtVzd0MmRtNmtyWW5adUtyZWVzPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJjNjYzYTFhMy1lMTU0LTQxMDktYjZiZi03MDE0NTFjMDE5YjUiLCJhdWQiOiJscXJxZmEyOHEzNW44YThsYmlvZjdzbzJkIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImV2ZW50X2lkIjoiZTUyMTZiYTItZjZiYi00YTVmLWE2OTUtMTM2YzA1ZmJkYTllIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE1ODIyMzAzMTQsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX25DandGUllLNSIsImNvZ25pdG86dXNlcm5hbWUiOiJnaWFuZnJhbmNvbnVzY2hlc2UiLCJleHAiOjE1ODIyMzM5MTQsImlhdCI6MTU4MjIzMDMxNCwiZW1haWwiOiJnaWFuZnJhbmNvbnVzY2hlc2VAZ21haWwuY29tIn0.ZzffB_2KqV31oI9jfOJbrGz8mIV_VXTIFJnrfc6jauGCjPOn_iDHJa89QUTrEZV3h04S4q99W195v43Hjv8r5Ywma29bhkOHVht5tBOHMihNzFgLW4ooihI79GAJ_xmvr1z5nz5x6Yn6NQQUn0IJ5voGWgGXj7_fQF1JFSCRUupw1VX1_x1bJu67wapjOIeTk1WNtVsRbY54xCb4Hx-kQaVnmAmklSF5OMAKGh0TRABtbMWelFyBjkKrPjtvwOlI83Zq85cTceucdHdmVe2zoC1nmXTrO39M5EYpA54CZBkuLsXlyMToA8F8RJqHSNppdeO_FkLf7x6VICTE8qwP2g";
+let authToken: null|string = 
+  "eyJraWQiOiJpeXZKUEozY0d4SjJBb2ZlTHU5SjB3WFNtVzd0MmRtNmtyWW5adUtyZWVzPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJjNjYzYTFhMy1lMTU0LTQxMDktYjZiZi03MDE0NTFjMDE5YjUiLCJhdWQiOiJscXJxZmEyOHEzNW44YThsYmlvZjdzbzJkIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImV2ZW50X2lkIjoiZTUyMTZiYTItZjZiYi00YTVmLWE2OTUtMTM2YzA1ZmJkYTllIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE1ODIyMzAzMTQsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX25DandGUllLNSIsImNvZ25pdG86dXNlcm5hbWUiOiJnaWFuZnJhbmNvbnVzY2hlc2UiLCJleHAiOjE1ODIyMzM5MTQsImlhdCI6MTU4MjIzMDMxNCwiZW1haWwiOiJnaWFuZnJhbmNvbnVzY2hlc2VAZ21haWwuY29tIn0.ZzffB_2KqV31oI9jfOJbrGz8mIV_VXTIFJnrfc6jauGCjPOn_iDHJa89QUTrEZV3h04S4q99W195v43Hjv8r5Ywma29bhkOHVht5tBOHMihNzFgLW4ooihI79GAJ_xmvr1z5nz5x6Yn6NQQUn0IJ5voGWgGXj7_fQF1JFSCRUupw1VX1_x1bJu67wapjOIeTk1WNtVsRbY54xCb4Hx-kQaVnmAmklSF5OMAKGh0TRABtbMWelFyBjkKrPjtvwOlI83Zq85cTceucdHdmVe2zoC1nmXTrO39M5EYpA54CZBkuLsXlyMToA8F8RJqHSNppdeO_FkLf7x6VICTE8qwP2g";
 let authSuccess = true;
 
 const getAuthToken = () => {
@@ -43,34 +43,34 @@ const getAuthToken = () => {
 
 //setTimeout(() => sendHCD(testHousehold), 3000)
 //Household Composition Data
-// const sendHCD = results => {
-//   const url = "https://screeningapi.cityofnewyork.us/eligibilityPrograms";
+const sendHCD = (results: string) => {
+  const url = "https://screeningapi.cityofnewyork.us/eligibilityPrograms";
 
-//   return axios({
-//     method: "post",
-//     url: url,
-//     data: results,
-//     headers: {
-//       "Content-Type": "application/json",
-//       "cache-control": "no-cache",
-//       "Authorization": authToken
-//     }
-//   })
-//     .then(response:  => {
-//       if (response.data.type === "SUCCESS") {
-//         console.log(response.data.eligiblePrograms);
-//         return response.data.eligiblePrograms;
-//       } else {
-//         authSuccess = false;
-//         // report failure
-//         console.log(response);
-//       }
-//     })
-//     .catch(err => {
-//       authSuccess = false;
-//       console.log("Unable to connect with NYC Benefit Service");
-//     });
-// };
+  return axios({
+    method: "post",
+    url: url,
+    data: results,
+    headers: {
+      "Content-Type": "application/json",
+      "cache-control": "no-cache",
+      "Authorization": authToken
+    }
+  })
+    .then((res: AxiosResponse) => {
+      if (res.data.type === "SUCCESS") {
+        console.log(res.data.eligiblePrograms);
+        return res.data.eligiblePrograms;
+      } else {
+        authSuccess = false;
+        // report failure
+        console.log(res);
+      }
+    })
+    .catch((err: AxiosError) => {
+      authSuccess = false;
+      console.log("Unable to connect with NYC Benefit Service");
+    });
+};
 
 router.get("/", async (req: Request, res: Response) => {
   if (!authToken) {
