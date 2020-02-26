@@ -145,3 +145,27 @@ const testHousehold = [
     withholdPayload: "true"
   }
 ];
+
+//MAKE A HOUSEHOLD DATA TYPE
+//BREAK IT INTO HOUSEHOLD AND PERSON
+
+
+
+interface HouseholdConfig {
+  cashOnHand: number;
+  livingRenting: boolean;
+  livingRentalType?: livingRentalType;
+  livingOwner: boolean;
+  livingStayingWithFriend: boolean;
+  livingHotel: boolean;
+  livingShelter: boolean;
+  livingPreferNottoSay: boolean;
+}
+
+
+
+type LivingRentalType = "" | "MarketRate" | "RentControlled" | "FamilyHome" | "Condo" | "NYCHA" | "RentRegulatedHotel" | "Section213" | "LimitedDividendDevelopment" | "MitchellLama" | "RedevelopmentCompany" | "HDFC";
+
+interface PersonConfig {
+
+}
