@@ -96,76 +96,164 @@ router.post("/sendresults", (req: Request, res: Response) => {
 
 module.exports = router;
 
-const testHousehold = [
-  {
-    household: [
-      {
-        cashOnHand: "5000",
-        livingRentalType: "RentControlled",
-        livingRenting: "true",
-        livingOwner: "false",
-        livingStayingWithFriend: "false",
-        livingHotel: "false",
-        livingShelter: "false",
-        livingPreferNotToSay: "false"
-      }
-    ],
-    person: [
-      {
-        age: "28",
-        householdMemberType: "HeadOfHousehold",
-        livingRentalOnLease: "true",
-        unemployed: "true",
-        unemployedWorkedLast18Months: "true",
-        benefitsMedicaid: "true",
-        livingOwnerOnDeed: "false",
-        student: "false",
-        studentFulltime: "false",
-        pregnant: "false",
-        blind: "false",
-        disabled: "false",
-        veteran: "false",
-        benefitsMedicaidDisability: "false",
-        incomes: [
-          {
-            amount: "0",
-            type: "Wages",
-            frequency: "Weekly"
-          }
-        ],
-        expenses: [
-          {
-            amount: "1650",
-            type: "Rent",
-            frequency: "Monthly"
-          }
-        ]
-      }
-    ],
-    withholdPayload: "true"
-  }
-];
+// const testHousehold: RequestConfig = 
+//   {
+//     household: [
+//       {
+//         cashOnHand: "5000",
+//         livingRentalType: "RentControlled",
+//         livingRenting: "true",
+//         livingOwner: "false",
+//         livingStayingWithFriend: "false",
+//         livingHotel: "false",
+//         livingShelter: "false",
+//         livingPreferNotToSay: "false"
+//       }
+//     ],
+//     person: [
+//       {
+//         age: "28",
+//         householdMemberType: "HeadOfHousehold",
+//         livingRentalOnLease: "true",
+//         unemployed: "true",
+//         unemployedWorkedLast18Months: "true",
+//         benefitsMedicaid: "true",
+//         livingOwnerOnDeed: "false",
+//         student: "false",
+//         studentFulltime: "false",
+//         pregnant: "false",
+//         blind: "false",
+//         disabled: "false",
+//         veteran: "false",
+//         benefitsMedicaidDisability: "false",
+//         incomes: [
+//           {
+//             amount: "0",
+//             type: "Wages",
+//             frequency: "Weekly"
+//           }
+//         ],
+//         expenses: [
+//           {
+//             amount: "1650",
+//             type: "Rent",
+//             frequency: "Monthly"
+//           }
+//         ]
+//       }
+//     ],
+//     withholdPayload: "true"
+//   }
+// ;
 
 //MAKE A HOUSEHOLD DATA TYPE
 //BREAK IT INTO HOUSEHOLD AND PERSON
 
+type LivingRentalType = "" | "MarketRate" | "RentControlled" | "FamilyHome" | "Condo" | "NYCHA" | "RentRegulatedHotel" | "Section213" | "LimitedDividendDevelopment" | "MitchellLama" | "RedevelopmentCompany" | "HDFC";
 
 
 interface HouseholdConfig {
   cashOnHand: number;
   livingRenting: boolean;
-  livingRentalType?: livingRentalType;
+  livingRentalType?: LivingRentalType;
   livingOwner: boolean;
   livingStayingWithFriend: boolean;
   livingHotel: boolean;
   livingShelter: boolean;
-  livingPreferNottoSay: boolean;
+  livingPreferNotToSay: boolean;
 }
 
+type HouseholdMemberType = "" | "HeadOfHouseHold" | "Child" | "FosterChild" | "StepChild" | "Grandchild" | "Spouse" | "Parent" | "FosterParent"| "StepParent" | "GrandParent" |"SisterBrother"| "StepSisterStepBrother" | "BoyfriendGirlfriend"| "DomesticPartner" | "Unrelated" | "Other";
 
+type IncomeType = "" | "Wages" | "SelfEmployment" | "Unemployment" | "CashAssistance" | "ChildSupport" | "DisabilityMedicaid" | "SSI" | "SSDependent" | "SSDisability" | "SSSurvivor" | "SSRetirement" | "NYSDisability" | "Veteran" | "Pension" | "DeferredComp" | "WorkersComp" | "Alimony" | "Boarder" | "Gifts" | "Rental" | "Investment";
 
-type LivingRentalType = "" | "MarketRate" | "RentControlled" | "FamilyHome" | "Condo" | "NYCHA" | "RentRegulatedHotel" | "Section213" | "LimitedDividendDevelopment" | "MitchellLama" | "RedevelopmentCompany" | "HDFC";
+type IncomeExpenseFrequency = "" | "Weekly" | "BiWeekly" | "Monthly" | "Semimonthly" | "Yearly";
+
+interface IncomeConfig {
+    amount: number;
+    type: IncomeType;
+    frequency: IncomeExpenseFrequency;
+}
+
+type ExpenseType = "" | "ChildCare" | "ChildSupport" | "DependentCare" | "Rent" | "Medical" | "Heating" | "Cooling" | "Mortgage" | "Utilities" | "Telephone" | "InsurancePremiums";
+
+interface ExpenseConfig {
+    amount: number;
+    type: ExpenseType;
+    frequency: IncomeExpenseFrequency;
+}
 
 interface PersonConfig {
-
+    age: number;
+    student: boolean;
+    studentFulltime: boolean;
+    pregnant:boolean;
+    unemployed: boolean;
+    unemployedWorkedLast18Months: boolean;
+    blind: boolean;
+    disabled: boolean;
+    veteran: boolean;
+    benefitsMedicaid: boolean;
+    benefitsMedicaidDisability: boolean;
+    householdMemberType: HouseholdMemberType;
+    livingOwnerOnDeed?: boolean;
+    livingRentalOnLease?: boolean;
+    incomes?:[IncomeConfig] 
+    expenses?:[ExpenseConfig]
 }
+
+interface RequestConfig {
+    household: [HouseholdConfig];
+    person: [PersonConfig];
+    withholdPayload: boolean;
+}
+
+const testHousehold: RequestConfig =
+{
+    household: [
+        {
+            cashOnHand: 5000,
+            livingRentalType: "RentControlled",
+            livingRenting: true,
+            livingOwner: false,
+            livingStayingWithFriend: false,
+            livingHotel: false,
+            livingShelter: false,
+            livingPreferNotToSay: false
+        }
+    ],
+    person: [
+        {
+            age: "28",
+            householdMemberType: "HeadOfHousehold",
+            livingRentalOnLease: "true",
+            unemployed: "true",
+            unemployedWorkedLast18Months: "true",
+            benefitsMedicaid: "true",
+            livingOwnerOnDeed: "false",
+            student: "false",
+            studentFulltime: "false",
+            pregnant: "false",
+            blind: "false",
+            disabled: "false",
+            veteran: "false",
+            benefitsMedicaidDisability: "false",
+            incomes: [
+                {
+                    amount: "0",
+                    type: "Wages",
+                    frequency: "Weekly"
+                }
+            ],
+            expenses: [
+                {
+                    amount: "1650",
+                    type: "Rent",
+                    frequency: "Monthly"
+                }
+            ]
+        }
+    ],
+    withholdPayload: "true"
+}
+    ;
