@@ -2,14 +2,22 @@
   "name": "nyc_benefits_node_backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "prestart": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ."
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.19.2",
     "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.2",
+    "@types/node": "^13.7.4",
+    "typescript": "^3.7.5"
   }
 }
