@@ -3,7 +3,13 @@ import { Request, Response } from "express";
 const express = require("express");
 const router = express.Router();
 import axios from 'axios';
+
+//imports AXIOS types
 import {AxiosPromise, AxiosResponse, AxiosError} from 'axios';
+
+//import custom typing for API
+import {NYCBSA} from 'nycbsa_types'
+
 
 let authToken: null|string = 
   "eyJraWQiOiJpeXZKUEozY0d4SjJBb2ZlTHU5SjB3WFNtVzd0MmRtNmtyWW5adUtyZWVzPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJjNjYzYTFhMy1lMTU0LTQxMDktYjZiZi03MDE0NTFjMDE5YjUiLCJhdWQiOiJscXJxZmEyOHEzNW44YThsYmlvZjdzbzJkIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImV2ZW50X2lkIjoiZTUyMTZiYTItZjZiYi00YTVmLWE2OTUtMTM2YzA1ZmJkYTllIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE1ODIyMzAzMTQsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX25DandGUllLNSIsImNvZ25pdG86dXNlcm5hbWUiOiJnaWFuZnJhbmNvbnVzY2hlc2UiLCJleHAiOjE1ODIyMzM5MTQsImlhdCI6MTU4MjIzMDMxNCwiZW1haWwiOiJnaWFuZnJhbmNvbnVzY2hlc2VAZ21haWwuY29tIn0.ZzffB_2KqV31oI9jfOJbrGz8mIV_VXTIFJnrfc6jauGCjPOn_iDHJa89QUTrEZV3h04S4q99W195v43Hjv8r5Ywma29bhkOHVht5tBOHMihNzFgLW4ooihI79GAJ_xmvr1z5nz5x6Yn6NQQUn0IJ5voGWgGXj7_fQF1JFSCRUupw1VX1_x1bJu67wapjOIeTk1WNtVsRbY54xCb4Hx-kQaVnmAmklSF5OMAKGh0TRABtbMWelFyBjkKrPjtvwOlI83Zq85cTceucdHdmVe2zoC1nmXTrO39M5EYpA54CZBkuLsXlyMToA8F8RJqHSNppdeO_FkLf7x6VICTE8qwP2g";
@@ -92,123 +98,13 @@ router.post("/sendresults", (req: Request, res: Response) => {
   //redirect person to page
 });
 
-//PORT
 
 module.exports = router;
 
-// const testHousehold: RequestConfig = 
-//   {
-//     household: [
-//       {
-//         cashOnHand: "5000",
-//         livingRentalType: "RentControlled",
-//         livingRenting: "true",
-//         livingOwner: "false",
-//         livingStayingWithFriend: "false",
-//         livingHotel: "false",
-//         livingShelter: "false",
-//         livingPreferNotToSay: "false"
-//       }
-//     ],
-//     person: [
-//       {
-//         age: "28",
-//         householdMemberType: "HeadOfHousehold",
-//         livingRentalOnLease: "true",
-//         unemployed: "true",
-//         unemployedWorkedLast18Months: "true",
-//         benefitsMedicaid: "true",
-//         livingOwnerOnDeed: "false",
-//         student: "false",
-//         studentFulltime: "false",
-//         pregnant: "false",
-//         blind: "false",
-//         disabled: "false",
-//         veteran: "false",
-//         benefitsMedicaidDisability: "false",
-//         incomes: [
-//           {
-//             amount: "0",
-//             type: "Wages",
-//             frequency: "Weekly"
-//           }
-//         ],
-//         expenses: [
-//           {
-//             amount: "1650",
-//             type: "Rent",
-//             frequency: "Monthly"
-//           }
-//         ]
-//       }
-//     ],
-//     withholdPayload: "true"
-//   }
-// ;
-
-//MAKE A HOUSEHOLD DATA TYPE
-//BREAK IT INTO HOUSEHOLD AND PERSON
-
-type LivingRentalType = "" | "MarketRate" | "RentControlled" | "FamilyHome" | "Condo" | "NYCHA" | "RentRegulatedHotel" | "Section213" | "LimitedDividendDevelopment" | "MitchellLama" | "RedevelopmentCompany" | "HDFC";
 
 
-interface HouseholdConfig {
-  cashOnHand: number;
-  livingRenting: boolean;
-  livingRentalType?: LivingRentalType;
-  livingOwner: boolean;
-  livingStayingWithFriend: boolean;
-  livingHotel: boolean;
-  livingShelter: boolean;
-  livingPreferNotToSay: boolean;
-}
 
-type HouseholdMemberType = "" | "HeadOfHouseHold" | "Child" | "FosterChild" | "StepChild" | "Grandchild" | "Spouse" | "Parent" | "FosterParent"| "StepParent" | "GrandParent" |"SisterBrother"| "StepSisterStepBrother" | "BoyfriendGirlfriend"| "DomesticPartner" | "Unrelated" | "Other";
-
-type IncomeType = "" | "Wages" | "SelfEmployment" | "Unemployment" | "CashAssistance" | "ChildSupport" | "DisabilityMedicaid" | "SSI" | "SSDependent" | "SSDisability" | "SSSurvivor" | "SSRetirement" | "NYSDisability" | "Veteran" | "Pension" | "DeferredComp" | "WorkersComp" | "Alimony" | "Boarder" | "Gifts" | "Rental" | "Investment";
-
-type IncomeExpenseFrequency = "" | "Weekly" | "BiWeekly" | "Monthly" | "Semimonthly" | "Yearly";
-
-interface IncomeConfig {
-    amount: number;
-    type: IncomeType;
-    frequency: IncomeExpenseFrequency;
-}
-
-type ExpenseType = "" | "ChildCare" | "ChildSupport" | "DependentCare" | "Rent" | "Medical" | "Heating" | "Cooling" | "Mortgage" | "Utilities" | "Telephone" | "InsurancePremiums";
-
-interface ExpenseConfig {
-    amount: number;
-    type: ExpenseType;
-    frequency: IncomeExpenseFrequency;
-}
-
-interface PersonConfig {
-    age: number;
-    student: boolean;
-    studentFulltime: boolean;
-    pregnant:boolean;
-    unemployed: boolean;
-    unemployedWorkedLast18Months: boolean;
-    blind: boolean;
-    disabled: boolean;
-    veteran: boolean;
-    benefitsMedicaid: boolean;
-    benefitsMedicaidDisability: boolean;
-    householdMemberType: HouseholdMemberType;
-    livingOwnerOnDeed?: boolean;
-    livingRentalOnLease?: boolean;
-    incomes?:[IncomeConfig] 
-    expenses?:[ExpenseConfig]
-}
-
-interface RequestConfig {
-    household: [HouseholdConfig];
-    person: [PersonConfig];
-    withholdPayload: boolean;
-}
-
-const testHousehold: RequestConfig =
+const testData: NYCBSA.RequestConfig =
 {
     household: [
         {
@@ -224,36 +120,45 @@ const testHousehold: RequestConfig =
     ],
     person: [
         {
-            age: "28",
+            age: 28,
             householdMemberType: "HeadOfHousehold",
-            livingRentalOnLease: "true",
-            unemployed: "true",
-            unemployedWorkedLast18Months: "true",
-            benefitsMedicaid: "true",
-            livingOwnerOnDeed: "false",
-            student: "false",
-            studentFulltime: "false",
-            pregnant: "false",
-            blind: "false",
-            disabled: "false",
-            veteran: "false",
-            benefitsMedicaidDisability: "false",
+            livingRentalOnLease: true,
+            unemployed: true,
+            unemployedWorkedLast18Months: true,
+            benefitsMedicaid: true,
+            livingOwnerOnDeed: false,
+            student: false,
+            studentFulltime: false,
+            pregnant: false,
+            blind: false,
+            disabled: false,
+            veteran: false,
+            benefitsMedicaidDisability: false,
             incomes: [
                 {
-                    amount: "0",
+                    amount: 0,
                     type: "Wages",
+                    frequency: "Weekly"
+                },
+                {
+                    amount: 20,
+                    type: "SelfEmployment",
                     frequency: "Weekly"
                 }
             ],
             expenses: [
                 {
-                    amount: "1650",
+                    amount: 1650,
                     type: "Rent",
                     frequency: "Monthly"
                 }
             ]
         }
     ],
-    withholdPayload: "true"
-}
-    ;
+    withholdPayload: true
+};
+
+//TODO: Establish Requests are working with correct typings, might have to stringify the JSON
+//TODO: Make another file with Benefits and Programs API, configure that Api
+// TODO: Properly integrate typing
+
