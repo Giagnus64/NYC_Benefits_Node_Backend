@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 
 const express = require("express");
 const router = express.Router();
+const fetch = require('node-fetch');
 import axios from 'axios';
 
 //imports AXIOS types
@@ -75,7 +76,7 @@ const sendHCD = (userData: any) => {
     .catch((err: AxiosError) => {
       
       authSuccess = false;
-      console.log(err.request)
+      
       console.log(err.response.data.errors)
       return false
     });
@@ -97,7 +98,8 @@ router.post("/sendresults", async (req: Request, res: Response) => {
   //res.send("Request recieved");
   //try catch block for errors
   const arrayified = [testData]
-  const results = await sendHCD(arrayified)
+  const results = await sendHCD(arrayified);
+  //console.log(results);
   res.send(results);
   //redirect person to page
 });
