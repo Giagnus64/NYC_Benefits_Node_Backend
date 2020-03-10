@@ -14,9 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
 const router = express.Router();
-const fetch = require('node-fetch');
 const axios_1 = __importDefault(require("axios"));
-let authToken = 'eyJraWQiOiJpeXZKUEozY0d4SjJBb2ZlTHU5SjB3WFNtVzd0MmRtNmtyWW5adUtyZWVzPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJjNjYzYTFhMy1lMTU0LTQxMDktYjZiZi03MDE0NTFjMDE5YjUiLCJhdWQiOiJscXJxZmEyOHEzNW44YThsYmlvZjdzbzJkIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImV2ZW50X2lkIjoiNGEyNmQyZjctYmIzZC00OGE0LWJmZDgtMjVjZWFkNDQ2ZGM0IiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE1ODM1MjM0MTEsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX25DandGUllLNSIsImNvZ25pdG86dXNlcm5hbWUiOiJnaWFuZnJhbmNvbnVzY2hlc2UiLCJleHAiOjE1ODM1MjcwMTEsImlhdCI6MTU4MzUyMzQxMSwiZW1haWwiOiJnaWFuZnJhbmNvbnVzY2hlc2VAZ21haWwuY29tIn0.bUzelq58FkfwO-Pdd9-FiozjSdj_pKj-oFibrlNrWqgNyyaJfhkv287cfrpHSpY366nJSiKWwsXN_sbCPg-tR4aS_B0JKJxHr_z4q1l3Y05JpRCYMYNBQDU8mOQ12rBphLlv45cDVWSHmgvfn4Wy5Ge74bO7pkw0F-JuJge7YEP-mznrXGWopRRJj29Z84Ul-VM9p1hO6MQa2GvWlf2PjwX8vqxV3jx9q6rL0kmohx8O4MxoClx0b7iakYMzp70u43aznrq844CElcAAP0ooZ90EL-FfhZC550dp0ruqQ1jW_Vcv8EhBn2K3kgtAfEr2OhLm_19MbB9QGZQwgJikxQ';
+let authToken = '';
 let authSuccess = true;
 const getAuthToken = () => {
     const url = "https://screeningapi.cityofnewyork.us/authToken";
@@ -49,20 +48,6 @@ const getAuthToken = () => {
         authSuccess = false;
         console.log("Unable to connect with NYC Benefit Service");
     });
-};
-const senderFetch = (userData) => {
-    const url = "https://screeningapi.cityofnewyork.us/eligibilityPrograms";
-    return fetch(url, {
-        method: "post",
-        body: JSON.stringify(userData),
-        headers: {
-            "Content-Type": "application/json",
-            "cache-control": "no-cache",
-            "Authorization": authToken
-        }
-    }).then((res) => res.json())
-        .then((json) => console.log(json))
-        .catch((err) => console.log(err));
 };
 //setTimeout(() => sendHCD(testHousehold), 3000)
 //Household Composition Data
@@ -110,16 +95,16 @@ router.post("/sendresults", (req, res) => __awaiter(void 0, void 0, void 0, func
     //res.send("Request recieved");
     //try catch block for errors
     const arrayified = [testData];
-    const results = yield senderFetch(arrayified);
-    console.log(results);
-    //res.send(results);
+    const results = yield sendHCD(arrayified);
+    //console.log(results);
+    res.send(results);
     //redirect person to page
 }));
 module.exports = router;
 const testData = {
     "household": [
         {
-            "cashOnHand": 5000,
+            "cashOnHand": "5000",
             "livingRentalType": "RentControlled",
             "livingRenting": true,
             "livingOwner": false,
@@ -131,7 +116,7 @@ const testData = {
     ],
     "person": [
         {
-            "age": 28,
+            "age": "28",
             "householdMemberType": "HeadOfHousehold",
             "livingRentalOnLease": true,
             "unemployed": true,
@@ -147,19 +132,19 @@ const testData = {
             "benefitsMedicaidDisability": false,
             "incomes": [
                 {
-                    "amount": 30,
+                    "amount": "30",
                     "type": "Wages",
                     "frequency": "Weekly"
                 },
                 {
-                    "amount": 20,
+                    "amount": "20",
                     "type": "SelfEmployment",
                     "frequency": "Weekly"
                 }
             ],
             "expenses": [
                 {
-                    "amount": 1650,
+                    "amount": "1650",
                     "type": "Rent",
                     "frequency": "Monthly"
                 }
